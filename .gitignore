@@ -1,0 +1,6 @@
+node_modules
+secret.json
+*.zip
+dist
+yarn-error.log
+.vscode/chrome

@@ -1,0 +1,8 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+     - ./test:/opt/deploy
+    environment:
+     - BEANSTALK_ENV=test

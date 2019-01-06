@@ -1,0 +1,59 @@
+{
+  "name": "multicontainerdockerdeploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": ">= 7.6.0"
+  },
+  "scripts": {
+    "build": "docker build -t deployer .",
+    "test": "docker run -it -v test:/opt/deploy -e BEANSTALK_ENV='myenv' -e BUILD_NUMBER=213 deployer",
+    "testshell": "docker run -it -v test:/opt/deploy -e BEANSTALK_ENV='myenv' -e BUILD_NUMBER=213 --entrypoint=sh deployer",
+    "awslogin": "aws configure",
+    "dockerlogin": "aws ecr get-login --no-include-email --region ap-southeast-2 | sed 's|https://||' | sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digijin/multicontainerdockerdeploy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digijin/multicontainerdockerdeploy/issues"
+  },
+  "homepage": "https://github.com/digijin/multicontainerdockerdeploy#readme",
+  "dependencies": {
+    "beanstalkify": "^2.1.0",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "babel-jest": "^18.0.0",
+    "fs-default-project-config": "^5.0.0",
+    "nodemon": "^1.12.1",
+    "yarn": "^1.2.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "modulePaths": [
+      "/src"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|styl)$": "<rootDir>/test/mock/styleMock.js"
+    },
+    "collectCoverage": false,
+    "coverageReporters": [
+      "json",
+      "lcov"
+    ]
+  }
+}
