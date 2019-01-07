@@ -1,0 +1,12 @@
+sudo: required
+services:
+- docker
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - docker build -t docker-deployer .
+      - docker images
+      - docker tag docker-deployer $DOCKER_USERNAME/docker-deployer
+      - docker push $DOCKER_USERNAME/docker-deployer
