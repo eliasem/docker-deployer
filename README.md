@@ -18,6 +18,12 @@ This is the name of the environment in AWS
 #### BUILD_NUMBER
 This is used to enforce uniqueness in package naming when deploying to AWS (if you try deploy a version that already exists, AWS will just try redeploy the existing one rather than taking the new one)
 
+Secrets can be injected through environment variables instead of secrets.json
+
+#### ACCESS_KEY_ID
+AWS Access key ID
+#### SECRET_ACCESS_KEY
+AWS Secret access key
 
 ## Mounted folder structure
 

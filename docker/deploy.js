@@ -13,21 +13,32 @@ if (!fs.existsSync(artifactLocation)) {
   process.exit(1);
 }
 
-if (!fs.existsSync(secretLocation)) {
-  console.error("Error: Could not find secrets file at " + secretLocation);
-  process.exit(1);
-}
 
-var secret = require("/opt/deploy/secret");
-if (!secret.accessKeyId) {
-  console.error("Error: /opt/deploy/secret.json does not contain accessKeyId");
-  process.exit(1);
-}
-if (!secret.secretAccessKey) {
-  console.error(
-    "Error: /opt/deploy/secret.json does not contain secretAccessKey"
-  );
-  process.exit(1);
+
+var accessKeyId = process.env.ACCESS_KEY_ID;
+var secretAccessKey = process.env.SECRET_ACCESS_KEY;
+
+if(!accessKeyId){
+  
+  if (!fs.existsSync(secretLocation)) {
+    console.error("Error: Could not find secrets file at " + secretLocation);
+    process.exit(1);
+  }
+  
+  var secret = require("/opt/deploy/secret");
+  if (!secret.accessKeyId) {
+    console.error("Error: /opt/deploy/secret.json does not contain accessKeyId");
+    process.exit(1);
+  }
+  if (!secret.secretAccessKey) {
+    console.error(
+      "Error: /opt/deploy/secret.json does not contain secretAccessKey"
+    );
+    process.exit(1);
+  }
+  accessKeyId = secret.accessKeyId
+  secretAccessKey = secret.secretAccessKey
+
 }
 
 if (!fs.existsSync(configLocation)) {
@@ -94,10 +105,11 @@ fs.copyFileSync(artifactLocation, filepath)
 console.log("preflight passed, deploying.")
 // process.exit(0);
 
+
 // Deploy
 var beanstalk = new Beanstalkify({
-  accessKeyId: secret.accessKeyId,
-  secretAccessKey: secret.secretAccessKey,
+  accessKeyId: accessKeyId,
+  secretAccessKey: secretAccessKey,
   region: region
 });
 
