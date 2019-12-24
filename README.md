@@ -30,7 +30,7 @@ AWS Secret access key
 | file | purpose |
 |--|--|
 | /opt/deploy/package.json | used for `name` and `version` |
-| /opt/deploy/secret.json | json file containing the `accessKeyId` and `secretAccessKey` for the account you are deploying to |
+| /opt/deploy/secret.json | json file containing the `accessKeyId` and `secretAccessKey` for the account you are deploying to (this is not needed if using environment variables) |
 | /opt/deploy/package.zip | the artifact package you are deploying |
 | /opt/deploy/config/index.js | This should contain the AMI (e.g. `64bit Amazon Linux 2017.03 v2.7.4 running Multi-container Docker 17.03.1-ce (Generic)`), the region (e.g. `ap-southeast-2`) as well as a key for each environment, e.g. `{ stag: "stag config object", prod: "prod config object"}`.|
 
