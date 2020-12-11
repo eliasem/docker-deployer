@@ -8,7 +8,7 @@ You'll need to create a volume and copy all the files to the `/deploy` folder
 This should be called with a command similar to: 
 
 ```console
-docker create --name artifact alpine:3.4 /bin/true
+docker create -v /deploy --name artifact alpine:3.4 /bin/true
 docker cp $PWD/. artifact:/deploy
 docker run -e BEANSTALK_ENV='myenv' -e BUILD_NUMBER=213 eliaselmoujaber/docker-deployer
 ```
