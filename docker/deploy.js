@@ -2,10 +2,10 @@ var Beanstalkify = require("beanstalkify");
 var path = require("path");
 var fs = require("fs");
 
-var secretLocation = "/opt/deploy/secret.json";
-var configLocation = "/opt/deploy/config/index.js";
-var packageLocation = "/opt/deploy/package.json";
-var artifactLocation = "/opt/deploy/package.zip";
+var secretLocation = "/deploy/secret.json";
+var configLocation = "/deploy/config/index.js";
+var packageLocation = "/deploy/package.json";
+var artifactLocation = "/deploy/package.zip";
 
 //preflight checks
 if (!fs.existsSync(artifactLocation)) {
@@ -25,14 +25,14 @@ if(!accessKeyId){
     process.exit(1);
   }
   
-  var secret = require("/opt/deploy/secret");
+  var secret = require("/deploy/secret");
   if (!secret.accessKeyId) {
-    console.error("Error: /opt/deploy/secret.json does not contain accessKeyId");
+    console.error("Error: /deploy/secret.json does not contain accessKeyId");
     process.exit(1);
   }
   if (!secret.secretAccessKey) {
     console.error(
-      "Error: /opt/deploy/secret.json does not contain secretAccessKey"
+      "Error: /deploy/secret.json does not contain secretAccessKey"
     );
     process.exit(1);
   }
@@ -45,7 +45,7 @@ if (!fs.existsSync(configLocation)) {
   console.error("Error: Could not find config file at " + configLocation);
   process.exit(1);
 }
-var config = require("/opt/deploy/config");
+var config = require("/deploy/config");
 var ami = config.ami;
 if (!ami) {
   console.error("Error: config does not contain ami");
@@ -98,7 +98,7 @@ version = version + "BUILD" + buildNumber;
 env = project + "-" + env + "-env";
 
 //give artifact proper name
-var filepath = "/opt/deploy/" + project + "-v" + version + ".zip";
+var filepath = "/deploy/" + project + "-v" + version + ".zip";
 fs.copyFileSync(artifactLocation, filepath)
 
 
