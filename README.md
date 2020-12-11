@@ -1,12 +1,16 @@
 ## Docker Deployer
-Generic deployer container to dpeloy to AWS. Mount configuration into container and run it to deploy a project.
+Generic deployer container to deploy to AWS. Mount configuration into container and run it to deploy a project.
+
+It was forked off from digijin/docker-deployer to work better with Circle CI. 
 
 ## Usage
-
+You'll need to create a volume and copy all the files to the `/deploy` folder
 This should be called with a command similar to: 
 
 ```console
-docker run -v ./myfiles:/opt/deploy -e BEANSTALK_ENV='myenv' -e BUILD_NUMBER=213 digijin/docker-deployer
+docker create --name artifact alpine:3.4 /bin/true
+docker cp $PWD/. artifact:/deploy
+docker run -e BEANSTALK_ENV='myenv' -e BUILD_NUMBER=213 eliasem/docker-deployer
 ```
 
 ## Environment variables
@@ -25,13 +29,13 @@ AWS Access key ID
 #### SECRET_ACCESS_KEY
 AWS Secret access key
 
-## Mounted folder structure
+## Copied Files
 
 | file | purpose |
 |--|--|
-| /opt/deploy/package.json | used for `name` and `version` |
-| /opt/deploy/secret.json | json file containing the `accessKeyId` and `secretAccessKey` for the account you are deploying to (this is not needed if using environment variables) |
-| /opt/deploy/package.zip | the artifact package you are deploying |
-| /opt/deploy/config/index.js | This should contain the AMI (e.g. `64bit Amazon Linux 2017.03 v2.7.4 running Multi-container Docker 17.03.1-ce (Generic)`), the region (e.g. `ap-southeast-2`) as well as a key for each environment, e.g. `{ stag: "stag config object", prod: "prod config object"}`.|
+| /deploy/package.json | used for `name` and `version` |
+| /deploy/secret.json | json file containing the `accessKeyId` and `secretAccessKey` for the account you are deploying to (this is not needed if using environment variables) |
+| /deploy/package.zip | the artifact package you are deploying |
+| /deploy/config/index.js | This should contain the AMI (e.g. `64bit Amazon Linux 2017.03 v2.7.4 running Multi-container Docker 17.03.1-ce (Generic)`), the region (e.g. `ap-southeast-2`) as well as a key for each environment, e.g. `{ stag: "stag config object", prod: "prod config object"}`.|
 
 
